@@ -2,7 +2,7 @@ const qrcode = require("qrcode-terminal");
 const { Client, List, Buttons } = require("whatsapp-web.js");
 const fs = require("fs");
 const mysql = require("mysql");
-
+// hello 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -14,7 +14,7 @@ db.connect((err) => {
   if (err) throw err;
   console.log("MySQL connected");
 });
-
+ 
 const SESSION_FILE_PATH = "./session.json";
 let sessionData;
 if (fs.existsSync(SESSION_FILE_PATH)) {
@@ -71,7 +71,7 @@ client.on("message", async (msg) => {
       msg.reply("*This link is either invalid or not working* 🤡");
       return;
     }
-    addOne(arr[0], arr[1], arr[2], msg);
+    addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
   } else if (msg.type === "buttons_response") {
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
@@ -110,7 +110,7 @@ async function addOne(subject, sec, link, msg) {
         }
       }
       db.query(
-        `UPDATE gr set link = '${link}' where subject LIKE '%${subject}%' and sec=${sec}`,
+        `UPDATE gr set link = 'https://chat.whatsapp.com/${link}' where subject LIKE '%${subject}%' and sec=${sec}`,
         async function (err, result) {
           if (err) {
             msg.reply("ERORR");
