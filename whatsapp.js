@@ -167,9 +167,10 @@ async function sendLinks(subject, msg) {
       let text = "*" + subject + "*\n";
       for (let i = 0; i < result.length; i++) {
         text += "sec #" + result[i].sec + "\n";
-        if (!result[i].link) text += "There no group pelase make one  and add it\n\n🥺🥺";
+        if (!result[i].link) text += "There no group pelase make one and add it 🥺🥺\n";
         else text += "Link: " + result[i].link + "\n";
       }
+      text+= `\n\nTo add new group:\n\n*#${subject} SEC LINK*`
       await client.sendMessage(msg.from, text);
     }
   );
