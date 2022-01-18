@@ -9,6 +9,7 @@
   "author": "akaa",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^14.2.0",
     "fs": "^0.0.1-security",
     "mysql": "^2.18.1",
     "qrcode-terminal": "^0.12.0",

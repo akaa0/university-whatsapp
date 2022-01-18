@@ -2,19 +2,22 @@ const qrcode = require("qrcode-terminal");
 const { Client, List, Buttons } = require("whatsapp-web.js");
 const fs = require("fs");
 const mysql = require("mysql");
-// hello 
+
+require("dotenv").config();
+
+// hello
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "wg",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
   if (err) throw err;
   console.log("MySQL connected");
 });
- 
+
 const SESSION_FILE_PATH = "./session.json";
 let sessionData;
 if (fs.existsSync(SESSION_FILE_PATH)) {
