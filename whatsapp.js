@@ -53,7 +53,7 @@ let IT = [
   { title: "Level 4", rows: [] },
 ];
 
-client.on("message", async (msg) => {  
+client.on("message", async (msg) => {
   if (
     !(msg.from.startsWith("973") || msg.from.startsWith("966")) ||
     (await msg.getChat()).isGroup
@@ -62,7 +62,9 @@ client.on("message", async (msg) => {
   if (msg.body.startsWith("#")) {
     let arr = msg.body.substring(1).split(" ");
     if (arr.length !== 3) {
-      msg.reply("*Sorry* 😭😭\n\n*But your format is not correct*\n\n*#ITCSxxx sec link*\n\n*make sure of the spacing*");
+      msg.reply(
+        "*Sorry* 😭😭\n\n*But your format is not correct*\n\n*#ITCSxxx sec link*\n\n*make sure of the spacing*"
+      );
       return;
     }
     if ((await client.getInviteInfo(arr[2].split(".com/")[1])).status !== 200) {
@@ -74,10 +76,13 @@ client.on("message", async (msg) => {
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
-  } else if (msg.body.startsWith('IT') && msg.body.length > 7 && msg.body.length < 11){
+  } else if (
+    msg.body.toLocaleLowerCase().startsWith("IT") &&
+    msg.body.length >= 7 &&
+    msg.body.length <= 11
+  ) {
     sendLinks(msg.body, msg);
-  }
-  else {
+  } else {
     let button = new Buttons(
       "Courses",
       [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
@@ -89,29 +94,41 @@ client.on("message", async (msg) => {
 });
 
 async function addOne(subject, sec, link, msg) {
-    db.query(`SELECT * from gr where subject='${subject}' and sec=${sec}`, async (err,result)=>{
-      if(err) throw err
-        if(result.length !== 0 && result[0].link){
-            if((await client.getInviteInfo(result[0].link.split(".com/")[1])).status === 200){
-                msg.reply("*There is a link for the group already*\n\n*But Thank you for the effort*\n\n🤗🤗");
-                return;
-            }
+  db.query(
+    `SELECT * from gr where subject='${subject}' and sec=${sec}`,
+    async (err, result) => {
+      if (err) throw err;
+      if (result.length !== 0 && result[0].link) {
+        if (
+          (await client.getInviteInfo(result[0].link.split(".com/")[1]))
+            .status === 200
+        ) {
+          msg.reply(
+            "*There is a link for the group already*\n\n*But Thank you for the effort*\n\n🤗🤗"
+          );
+          return;
         }
-        db.query(
-          `UPDATE gr set link = '${link}' where subject LIKE '%${subject}%' and sec=${sec}`,
-          async function (err, result) {
+      }
+      db.query(
+        `UPDATE gr set link = '${link}' where subject LIKE '%${subject}%' and sec=${sec}`,
+        async function (err, result) {
           if (err) {
-              msg.reply("ERORR");
-              return;
+            msg.reply("ERORR");
+            return;
           }
           if (result.affectedRows === 0) {
-              msg.reply("This course does not exists for more information contact\n\nhttp://wa.me/97333959459");
-              return;
+            msg.reply(
+              "This course does not exists for more information contact\n\nhttp://wa.me/97333959459"
+            );
+            return;
           }
-          msg.reply("*The Coures has been added* \n\n*Thanks for the help* 🥰🥰\n\n*We really appreciate it* 🌹🌹\n");
-          }
+          msg.reply(
+            "*The Coures has been added* \n\n*Thanks for the help* 🥰🥰\n\n*We really appreciate it* 🌹🌹\n"
+          );
+        }
       );
-    })
+    }
+  );
 }
 
 async function createList(subject, msg, IT1) {
@@ -119,7 +136,10 @@ async function createList(subject, msg, IT1) {
     `SELECT DISTINCT subject FROM gr where major='${subject}'`,
     async function (err, result, fields) {
       if (err) throw err;
-      IT1[0].rows = [],IT1[1].rows = [],IT1[2].rows = [],IT1[3].rows = [];
+      (IT1[0].rows = []),
+        (IT1[1].rows = []),
+        (IT1[2].rows = []),
+        (IT1[3].rows = []);
       for (let i = 0; i < result.length; i++) {
         if (result[i].subject.substr(-3).startsWith("1"))
           IT1[0].rows.push({ title: result[i].subject });
