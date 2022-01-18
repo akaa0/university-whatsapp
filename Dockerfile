@@ -1,10 +1,14 @@
-FROM node:alpine
+FROM node
 
 WORKDIR /home/node/app
+
+RUN apt update && apt install -y chromium
 
 COPY package.json .
 
 RUN npm i
 
-EXPOSE 8888
+COPY whatsapp.js .env session.json ./
+
+EXPOSE 3000
 
