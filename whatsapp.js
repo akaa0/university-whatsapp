@@ -68,7 +68,7 @@ client.on("message", async (msg) => {
       return;
     }
     if ((await client.getInviteInfo(arr[2].split(".com/")[1])).status !== 200) {
-      msg.reply("*This link is either invaild or not working* 🤡");
+      msg.reply("*This link is either invalid or not working* 🤡");
       return;
     }
     addOne(arr[0], arr[1], arr[2], msg);
@@ -87,7 +87,7 @@ client.on("message", async (msg) => {
       "Courses",
       [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
       "IT College",
-      "select depemarment"
+      "select department"
     );
     msg.reply(button);
   }
