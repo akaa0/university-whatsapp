@@ -12,3 +12,4 @@ COPY whatsapp.js .env session.json ./
 
 EXPOSE 3000
 
+CMD ["node", "whatsapp.js"]
