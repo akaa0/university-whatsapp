@@ -66,7 +66,7 @@ client.on("message", async (msg) => {
     let arr = msg.body.substring(1).split(" ");
     if (arr.length !== 3) {
       msg.reply(
-        "*Sorry* 😭😭\n\n*But your format is not correct*\n\n*#ITCSxxx sec link*\n\n*make sure of the spacing*"
+        "*Sorry* 😭😭\n\n*But your format is not correct*\n\n*#ITCSxxx SEC LINK*\n\n*make sure of the spacing*"
       );
       return;
     }
@@ -167,7 +167,7 @@ async function sendLinks(subject, msg) {
       let text = "*" + subject + "*\n";
       for (let i = 0; i < result.length; i++) {
         text += "sec #" + result[i].sec + "\n";
-        if (!result[i].link) text += "noLink please add it\n";
+        if (!result[i].link) text += "There no group pelase make one  and add it\n\n🥺🥺";
         else text += "Link: " + result[i].link + "\n";
       }
       await client.sendMessage(msg.from, text);
