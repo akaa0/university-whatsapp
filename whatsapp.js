@@ -74,7 +74,10 @@ client.on("message", async (msg) => {
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
-  } else {
+  } else if (msg.body.startsWith('IT') && msg.body.length > 7 && msg.body.length < 11){
+    sendLinks(msg.body, msg);
+  }
+  else {
     let button = new Buttons(
       "Courses",
       [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
