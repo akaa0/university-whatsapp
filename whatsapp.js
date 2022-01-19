@@ -80,7 +80,7 @@ client.on("message", async (msg) => {
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
   } else if (
-    msg.body.toLocaleLowerCase().startsWith("IT") &&
+    msg.body.toLocaleUpperCase().startsWith("IT") &&
     msg.body.length >= 7 &&
     msg.body.length <= 11
   ) {
