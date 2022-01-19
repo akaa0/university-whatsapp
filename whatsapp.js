@@ -57,7 +57,6 @@ let IT = [
 ];
 
 client.on("message", async (msg) => {
-  msg.body = msg.body.toLocaleUpperCase()
   if (
     !(msg.from.startsWith("973") || msg.from.startsWith("966")) ||
     (await msg.getChat()).isGroup
@@ -81,10 +80,11 @@ client.on("message", async (msg) => {
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
   } else if (
-    msg.body.startsWith("IT") &&
+    msg.body.toLocaleUpperCase().startsWith("IT") &&
     msg.body.length >= 7 &&
     msg.body.length <= 11
   ) {
+    msg.body = msg.body.toLocaleUpperCase()
     sendLinks(msg.body, msg);
   } else {
     let button = new Buttons(
