@@ -99,8 +99,8 @@ client.on("message", async (msg) => {
 
 async function addOne(subject, sec, link, msg) {
   var newSub =[]
-  newSub[0]=f.substring(0,4)
-  newSub[1] =f.substr(4)
+  newSub[0]=subject.substring(0,4)
+  newSub[1] =subject.substr(4)
   db.query(
     `SELECT * from gr where subject like '${newSub[0]}%' and subject like '%${newSub[1]}%' and sec=${sec}`,
     async (err, result) => {
@@ -165,8 +165,8 @@ async function createList(subject, msg, IT1) {
 
 async function sendLinks(subject, msg) {
   var newSub =[]
-  newSub[0]=f.substring(0,4)
-  newSub[1] =f.substr(4)
+  newSub[0]=subject.substring(0,4)
+  newSub[1] =subject.substr(4)
   db.query(
     `SELECT * FROM gr where subject like '${newSub[0]}%' and subject like '%${newSub[1]}%'`,
     async function (err, result, fields) {
