@@ -98,8 +98,11 @@ client.on("message", async (msg) => {
 });
 
 async function addOne(subject, sec, link, msg) {
+  var newSub =[]
+  m[0]=f.substring(0,4)
+  m[1] =f.substr(4)
   db.query(
-    `SELECT * from gr where subject='${subject}' and sec=${sec}`,
+    `SELECT * from gr where subject like '${m[0]}%' and subject like '%${m[1]}%' and sec=${sec}`,
     async (err, result) => {
       if (err) throw err;
       if (result.length !== 0 && result[0].link) {
@@ -114,7 +117,7 @@ async function addOne(subject, sec, link, msg) {
         }
       }
       db.query(
-        `UPDATE gr set link = 'https://chat.whatsapp.com/${link}' where subject LIKE '%${subject}%' and sec=${sec}`,
+        `UPDATE gr set link = 'https://chat.whatsapp.com/${link}' where subject like '${m[0]}%' and subject like '%${m[1]}%' and sec=${sec}`,
         async function (err, result) {
           if (err) {
             msg.reply("ERORR");
@@ -161,8 +164,11 @@ async function createList(subject, msg, IT1) {
 }
 
 async function sendLinks(subject, msg) {
+  var newSub =[]
+  m[0]=f.substring(0,4)
+  m[1] =f.substr(4)
   db.query(
-    `SELECT * FROM gr where subject ='${subject}'`,
+    `SELECT * FROM gr where subject like '${m[0]}%' and subject like '%${m[1]}%'`,
     async function (err, result, fields) {
       if (err) throw err;
       let text = "*" + subject + "*\n";
