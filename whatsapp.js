@@ -74,7 +74,9 @@ client.on("message", async (msg) => {
       msg.reply("*This link is either invalid or not working* 🤡");
       return;
     }
-    addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
+    if (Number.isInteger(arr[1]) || Number(arr[1]) == 0)
+      addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
+    else msg.reply("ERROR");
   } else if (msg.type === "buttons_response") {
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
@@ -84,7 +86,7 @@ client.on("message", async (msg) => {
     msg.body.length >= 7 &&
     msg.body.length <= 11
   ) {
-    msg.body = msg.body.toLocaleUpperCase()
+    msg.body = msg.body.toLocaleUpperCase();
     sendLinks(msg.body, msg);
   } else {
     let button = new Buttons(
@@ -98,9 +100,9 @@ client.on("message", async (msg) => {
 });
 
 async function addOne(subject, sec, link, msg) {
-  var newSub =[]
-  newSub[0]=subject.substring(0,4)
-  newSub[1] =subject.substr(4)
+  var newSub = [];
+  newSub[0] = subject.substring(0, 4);
+  newSub[1] = subject.substr(4);
   db.query(
     `SELECT * from gr where subject like '${newSub[0]}%' and subject like '%${newSub[1]}%' and sec=${sec}`,
     async (err, result) => {
@@ -164,9 +166,9 @@ async function createList(subject, msg, IT1) {
 }
 
 async function sendLinks(subject, msg) {
-  var newSub =[]
-  newSub[0]=subject.substring(0,4)
-  newSub[1] =subject.substr(4)
+  var newSub = [];
+  newSub[0] = subject.substring(0, 4);
+  newSub[1] = subject.substr(4);
   db.query(
     `SELECT * FROM gr where subject like '${newSub[0]}%' and subject like '%${newSub[1]}%'`,
     async function (err, result, fields) {
@@ -174,10 +176,11 @@ async function sendLinks(subject, msg) {
       let text = "*" + subject + "*\n";
       for (let i = 0; i < result.length; i++) {
         text += "sec #" + result[i].sec + "\n";
-        if (!result[i].link) text += "There no group pelase make one and add it 🥺🥺\n";
+        if (!result[i].link)
+          text += "There no group pelase make one and add it 🥺🥺\n";
         else text += "Link: " + result[i].link + "\n";
       }
-      text+= `\n\nTo add new group:\n\n*#${subject} SEC LINK*`
+      text += `\n\nTo add new group:\n\n*#${subject} SEC LINK*`;
       await client.sendMessage(msg.from, text);
     }
   );
