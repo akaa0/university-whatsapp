@@ -6,9 +6,9 @@ RUN apt update && apt install -y chromium
 
 COPY package.json .
 
-RUN npm i
+RUN npm install
 
-COPY whatsapp.js .env session.json ./
+COPY whatsapp.js ./
 
 EXPOSE 3000
 
