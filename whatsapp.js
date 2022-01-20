@@ -74,8 +74,7 @@ client.on("message", async (msg) => {
       msg.reply("*This link is either invalid or not working* 🤡");
       return;
     }
-    console.log(Number.isInteger(parseInt(arr[1])))
-    if (Number.isInteger(arr[1]) || Number(arr[1]) == 0)
+    if (Number.isInteger(parseInt(arr[1])))
       addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
     else msg.reply("ERROR");
   } else if (msg.type === "buttons_response") {
