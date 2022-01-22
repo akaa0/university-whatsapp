@@ -5,10 +5,6 @@ const mysql = require("mysql");
 
 require("dotenv").config();
 
-
-
-
-
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -29,7 +25,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const client = new Client({
   session: sessionData,
   puppeteer: {
-    args: ["--no-sandbox"]
+    args: ["--no-sandbox"],
   },
   Port: process.env.PORT || 3000,
 });
@@ -81,50 +77,56 @@ client.on("message", async (msg) => {
       addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
     else msg.reply("ERROR");
   } else if (msg.type === "buttons_response") {
-    if(msg.selectedButtonId == "College1"){
+    if (msg.selectedButtonId == "College1") {
       let button = new Buttons(
         "Courses",
         [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
         "IT College",
         "select department"
-      )
-      client.sendMessage(msg.from,button);
+      );
+      client.sendMessage(msg.from, button);
       return;
-    }
-    else if(msg.selectedButtonId == "College2"){
+    } else if (msg.selectedButtonId == "College2") {
       let button = new Buttons(
         "Courses",
-        [{ body: "MTH" }, { body: "PHY" }, { body: "More Majors", id:"NEXT" }],
+        [{ body: "MTH" }, { body: "PHY" }, { body: "More Majors", id: "NEXT" }],
         "IT College",
         "select department"
-      )
-      client.sendMessage(msg.from,button);
+      );
+      client.sendMessage(msg.from, button);
       return;
-    }
-    else if(msg.selectedButtonId == "NEXT"){
+    } else if (msg.selectedButtonId == "NEXT") {
       let button = new Buttons(
         "Courses",
         [{ body: "CHM" }, { body: "BIO" }],
         "IT College",
         "select department"
-      )
-      client.sendMessage(msg.from,button);
+      );
+      client.sendMessage(msg.from, button);
       return;
     }
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
   } else if (
-    msg.body.toLocaleUpperCase().startsWith("IT") &&
+    (msg.body.toLocaleUpperCase().startsWith("IT") ||
+      msg.body.toLocaleUpperCase().startsWith("STAT") ||
+      msg.body.toLocaleUpperCase().startsWith("MATH") ||
+      msg.body.toLocaleUpperCase().startsWith("CHMY") ||
+      msg.body.toLocaleUpperCase().startsWith("PHYCS") ||
+      msg.body.toLocaleUpperCase().startsWith("BIO")) &&
     msg.body.length >= 7 &&
     msg.body.length <= 11
   ) {
     msg.body = msg.body.toLocaleUpperCase();
     sendLinks(msg.body, msg);
   } else {
-     button = new Buttons(
+    button = new Buttons(
       "Courses",
-      [{ body: "IT",id:"College1" }, { body: "SCI", id:"College2" }],
+      [
+        { body: "IT", id: "College1" },
+        { body: "SCI", id: "College2" },
+      ],
       "College",
       "select College"
     );
