@@ -88,7 +88,7 @@ client.on("message", async (msg) => {
     else if(msg.selectedButtonId == "College2"){
       let button = new Buttons(
         "Courses",
-        [{ body: "MTH" }, { body: "PHY" }, { body: "More Colleges ", id:"NEXT" }],
+        [{ body: "MTH" }, { body: "PHY" }, { body: "More Colleges", id:"NEXT" }],
         "IT College",
         "select department"
       )
@@ -116,6 +116,7 @@ client.on("message", async (msg) => {
     sendLinks(msg.body, msg);
   } else {
      button = new Buttons(
+      "Courses",
       [{ body: "IT",id:"College1" }, { body: "SCI", id:"College2" }],
       "College",
       "select College"
