@@ -131,7 +131,7 @@ async function addOne(subject, sec, link, msg) {
             return;
           }
           msg.reply(
-            "*The Coures has been added* \n\n*Thanks for the help* 🥰🥰\n\n*We really appreciate it* 🌹🌹\n"
+            "*The Course has been added* \n\n*Thanks for the help* 🥰🥰\n\n*We really appreciate it* 🌹🌹\n"
           );
         }
       );
@@ -176,7 +176,7 @@ async function sendLinks(subject, msg) {
       for (let i = 0; i < result.length; i++) {
         text += "sec #" + result[i].sec + "\n";
         if (!result[i].link)
-          text += "There no group pelase make one and add it 🥺🥺\n";
+          text += "There no group please make one and add it 🥺🥺\n";
         else text += "Link: " + result[i].link + "\n";
       }
       text += `\n\nTo add new group:\n\n*#${subject} SEC LINK*`;
