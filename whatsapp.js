@@ -5,7 +5,9 @@ const mysql = require("mysql");
 
 require("dotenv").config();
 
-// hello AKAA
+
+
+
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -27,7 +29,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const client = new Client({
   session: sessionData,
   puppeteer: {
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox"]
   },
   Port: process.env.PORT || 3000,
 });
@@ -79,6 +81,36 @@ client.on("message", async (msg) => {
       addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
     else msg.reply("ERROR");
   } else if (msg.type === "buttons_response") {
+    if(msg.selectedButtonId == "College1"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
+        "IT College",
+        "select department"
+      )
+      client.sendMessage(msg.from,button);
+      return;
+    }
+    else if(msg.selectedButtonId == "College2"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "MTH" }, { body: "PHY" }, { body: "More Colleges", id:"NEXT" }],
+        "IT College",
+        "select department"
+      )
+      client.sendMessage(msg.from,button);
+      return;
+    }
+    else if(msg.selectedButtonId == "NEXT"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "CHM" }, { body: "BIO" }],
+        "IT College",
+        "select department"
+      )
+      client.sendMessage(msg.from,button);
+      return;
+    }
     createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
@@ -90,11 +122,11 @@ client.on("message", async (msg) => {
     msg.body = msg.body.toLocaleUpperCase();
     sendLinks(msg.body, msg);
   } else {
-    let button = new Buttons(
+     button = new Buttons(
       "Courses",
-      [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
-      "IT College",
-      "select department"
+      [{ body: "IT",id:"College1" }, { body: "SCI", id:"College2" }],
+      "College",
+      "select College"
     );
     msg.reply(button);
   }
