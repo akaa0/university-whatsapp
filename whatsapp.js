@@ -5,7 +5,6 @@ const mysql = require("mysql");
 
 require("dotenv").config();
 
-// hello
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -76,7 +75,26 @@ client.on("message", async (msg) => {
     }
     addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
   } else if (msg.type === "buttons_response") {
-    createList(msg.body, msg, IT);
+    console.log(msg)
+    if(msg.selectedButtonId === "College1"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
+        "IT College",
+        "select department"
+      );
+      msg.reply(button);
+    }
+    else if(msg.selectedButtonId === "College2"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "MTH" }, { body: "PHY" }, { body: "NEXT", id:"NEXT" }],
+        "IT College",
+        "select department"
+      );
+      msg.reply(button);
+    }
+    // createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
   } else if (
@@ -88,8 +106,8 @@ client.on("message", async (msg) => {
   } else {
     let button = new Buttons(
       "Courses",
-      [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
-      "IT College",
+      [{ body: "IT",id:"College1" }, { body: "science", id:"College2" }],
+      "College",
       "select department"
     );
     msg.reply(button);
