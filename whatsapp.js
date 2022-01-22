@@ -75,7 +75,6 @@ client.on("message", async (msg) => {
     }
     addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
   } else if (msg.type === "buttons_response") {
-    console.log(msg)
     if(msg.selectedButtonId === "College1"){
       let button = new Buttons(
         "Courses",
@@ -84,6 +83,7 @@ client.on("message", async (msg) => {
         "select department"
       );
       msg.reply(button);
+      return;
     }
     else if(msg.selectedButtonId === "College2"){
       let button = new Buttons(
@@ -93,6 +93,17 @@ client.on("message", async (msg) => {
         "select department"
       );
       msg.reply(button);
+      return;
+    }
+    else if(msg.selectedButtonId === "NEXT"){
+      let button = new Buttons(
+        "Courses",
+        [{ body: "CHM" }, { body: "BIO" }],
+        "IT College",
+        "select department"
+      );
+      msg.reply(button);
+      return;
     }
     // createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
