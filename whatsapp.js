@@ -25,7 +25,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const client = new Client({
   session: sessionData,
   puppeteer: {
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox"]
   },
   Port: process.env.PORT || 3000,
 });
@@ -75,37 +75,37 @@ client.on("message", async (msg) => {
     }
     addOne(arr[0], arr[1], arr[2].split(".com/")[1], msg);
   } else if (msg.type === "buttons_response") {
-    if(msg.selectedButtonId === "College1"){
+    if(msg.selectedButtonId == "College1"){
       let button = new Buttons(
         "Courses",
         [{ body: "CS" }, { body: "CE" }, { body: "IS" }],
         "IT College",
         "select department"
-      );
-      msg.reply(button);
+      )
+      client.sendMessage(msg.from,button);
       return;
     }
-    else if(msg.selectedButtonId === "College2"){
+    else if(msg.selectedButtonId == "College2"){
       let button = new Buttons(
         "Courses",
         [{ body: "MTH" }, { body: "PHY" }, { body: "NEXT", id:"NEXT" }],
         "IT College",
         "select department"
-      );
-      msg.reply(button);
+      )
+      client.sendMessage(msg.from,button);
       return;
     }
-    else if(msg.selectedButtonId === "NEXT"){
+    else if(msg.selectedButtonId == "NEXT"){
       let button = new Buttons(
         "Courses",
         [{ body: "CHM" }, { body: "BIO" }],
         "IT College",
         "select department"
-      );
-      msg.reply(button);
+      )
+      client.sendMessage(msg.from,button);
       return;
     }
-    // createList(msg.body, msg, IT);
+    createList(msg.body, msg, IT);
   } else if (msg.type === "list_response") {
     sendLinks(msg.body, msg);
   } else if (
@@ -115,7 +115,7 @@ client.on("message", async (msg) => {
   ) {
     sendLinks(msg.body, msg);
   } else {
-    let button = new Buttons(
+     button = new Buttons(
       "Courses",
       [{ body: "IT",id:"College1" }, { body: "science", id:"College2" }],
       "College",
