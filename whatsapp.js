@@ -112,7 +112,7 @@ client.on("message", async (msg) => {
     (msg.body.toLocaleUpperCase().startsWith("IT") ||
       msg.body.toLocaleUpperCase().startsWith("STAT") ||
       msg.body.toLocaleUpperCase().startsWith("MATH") ||
-      msg.body.toLocaleUpperCase().startsWith("CHMY") ||
+      msg.body.toLocaleUpperCase().startsWith("CHEMY") ||
       msg.body.toLocaleUpperCase().startsWith("PHYCS") ||
       msg.body.toLocaleUpperCase().startsWith("BIO")) &&
     msg.body.length >= 7 &&
