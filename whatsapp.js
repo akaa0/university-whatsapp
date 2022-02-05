@@ -23,6 +23,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionData = require(SESSION_FILE_PATH);
 }
 const client = new Client({
+  authTimeoutMs:60000, //wait 1 min if not connected will restart
   session: sessionData,
   puppeteer: {
     args: ["--no-sandbox"],
@@ -44,7 +45,7 @@ client.on("qr", (qr) => {
 client.on("ready", () => {
   console.log("Client is ready!");
 });
-
+client.on("auth_failure",async ()=> await client.initialize()); //command to restart the bot
 let IT = [
   { title: "Level 1", rows: [] },
 
