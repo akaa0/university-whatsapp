@@ -3,7 +3,7 @@ const { Client, List, Buttons } = require("whatsapp-web.js");
 const fs = require("fs");
 const mysql = require("mysql");
 
-require("dotenv").config();a
+require("dotenv").config();
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -23,7 +23,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionData = require(SESSION_FILE_PATH);
 }
 const client = new Client({
-  authTimeoutMs:60000, //wait 1 min if not connected will restart
+  authTimeoutMs: 60000, //wait 1 min if not connected will restart
   session: sessionData,
   puppeteer: {
     args: ["--no-sandbox"],
@@ -42,10 +42,15 @@ client.on("authenticated", (session) => {
 client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
 });
-client.on("ready", () => {
+client.on("ready", async () => {
   console.log("Client is ready!");
+  (await client.getChats()).forEach(async chat => {
+    let count = chat.unreadCount;
+    if (count == 0) return;
+    (await chat.fetchMessages({ limit: count })).forEach(async msg => await welcome(msg));
+  })
 });
-client.on("auth_failure",async ()=> await client.initialize()); //command to restart the bot
+client.on("auth_failure", async () => await client.initialize()); //command to restart the bot
 let IT = [
   { title: "Level 1", rows: [] },
 
@@ -57,6 +62,10 @@ let IT = [
 ];
 
 client.on("message", async (msg) => {
+  return await welcome(msg)
+});
+
+async function welcome(msg) {
   if (
     !(msg.from.startsWith("973") || msg.from.startsWith("966")) ||
     (await msg.getChat()).isGroup
@@ -131,9 +140,9 @@ client.on("message", async (msg) => {
       "College",
       "select College"
     );
-    msg.reply(button);
+    client.sendMessage(msg.from, button);
   }
-});
+}
 
 async function addOne(subject, sec, link, msg) {
   var newSub = [];
@@ -163,7 +172,7 @@ async function addOne(subject, sec, link, msg) {
           }
           if (result.affectedRows === 0) {
             msg.reply(
-              "This course does not exists for more information contact\n\nhttp://wa.me/97333959459"
+              "This course does not exists for more information contact\n\nhttp://wa.me/97333959459", { linkPreview: false }
             );
             return;
           }
@@ -219,7 +228,7 @@ async function sendLinks(subject, msg) {
         else text += "Link: " + result[i].link + "\n";
       }
       text += `\n\nTo add new group:\n\n*#${subject} SEC LINK*\n\n*IF you want to add ALL SEC group replace SEC with 0*`;
-      await client.sendMessage(msg.from, text);
+      await client.sendMessage(msg.from, text, { linkPreview: false });
     }
   );
 }
