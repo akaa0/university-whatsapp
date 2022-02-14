@@ -3,7 +3,7 @@ const { Client, List, Buttons } = require("whatsapp-web.js");
 const fs = require("fs");
 const mysql = require("mysql");
 
-require("dotenv").config();
+require("dotenv").config();a
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
