@@ -44,11 +44,6 @@ client.on("qr", (qr) => {
 });
 client.on("ready", async () => {
   console.log("Client is ready!");
-  (await client.getChats()).forEach(async chat => {
-    let count = chat.unreadCount;
-    if (count == 0) return;
-    (await chat.fetchMessages({ limit: count })).forEach(async msg => await welcome(msg));
-  })
 });
 client.on("auth_failure", async () => await client.initialize()); //command to restart the bot
 let IT = [
